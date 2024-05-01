@@ -1,0 +1,41 @@
+hive>create database db1;
+hive> use db1;
+hive> create table flight (fno int, year int,dest varchar(10),delay float);
+hive>describe flight;
+hive>alter table flight rename to air_flight;
+hive>show tables;
+hive>alter table air_flight add columns(source varchar(10));
+hive>drop table air_flight;
+hive>show tables;
+hive> create table flight (fno int, year int,dest varchar(10),delay float);
+hive>insert into flight values (110,2008,” Mumbai”,10.0);
+hive>insert into flight values (120,2010,” Pune”,5.0);
+hive> create external table flight1(fno int, year int, dest varchar(10), delay float)
+    > row format delimited
+    > fields terminated by ','
+    > lines terminated by '\n'
+    > stored as textfile;
+ row format delimited
+ fields terminated by ','
+ stored as textfile;
+hive> load data local inpath "f.txt"
+    > overwrite into table flight1;
+hive>select * from flight1;
+CREATE INDEX flight_index ON TABLE flight(fno)
+AS 'org.apache.hadoop.hive.ql.index.compact.CompactIndexHandler'
+with deferred rebuild;
+create table nflight(fno int, year int, source varchar(10))
+    > row format delimited
+    > fields terminated by ','
+    > lines terminated by '\n'
+    > stored as textfile;
+hive> insert into nflight values(924,2008,"mumbai");
+hive> select a.fno, a.year, a.dest, a.delay, b.source
+    > from flight1 a join nflight b
+    > on(a.fno=b.fno);
+hive> SELECT year,
+    > dest,
+    > AVG(delay) AS average_delay
+    > FROM flight
+    > WHERE year = 2009
+    > GROUP BY year, dest;
