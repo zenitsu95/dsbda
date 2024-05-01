@@ -1,0 +1,26 @@
+import requests
+import bs4
+
+rq1=requests.get(‘https://www.flipkart.com/samsung-galaxy-f15-5g-ash-black-128-gb/p/itmfda5356da5277?pid=MOBHYFPPXVTWRUEW&param=89798&otracker=clp_bannerads_1_13.bannerAdCard.BANNERADS_Samsung-F15-New-Variant-EB-sale%2Btoday_mobile-phones-store_WSK17FGCTTQL’)
+rq1
+
+rq1.content
+
+soup=bs4.BeautifulSoup(rq1.text)
+soup
+
+rev=soup.findAll('div',{'class':'ZmyHeo'})
+for review in rev:
+    print(review.get_text()+"\n\n")
+
+avg_ratings=soup.find('div',{'class':'ipqd2A'}).get_text()
+print(avg_ratings
+
+ind_ratings=soup.findAll('div',{'class':'XQDdHH Ga3i8K'})
+for indiviual_ratings in ind_ratings:
+    print(indiviual_ratings.get_text())
+
+cust_name=soup.findAll('p',{'class':'_2NsDsF AwS1CA'})
+for cname in cust_name:
+    print(cname.get_text())
+
